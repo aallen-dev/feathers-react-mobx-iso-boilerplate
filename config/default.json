@@ -1,0 +1,12 @@
+{
+  "host": "localhost",
+  "port": 3030,
+  "mongodb": "mongodb://localhost:27017/boilerplate",
+  "public": "../public/",
+  "auth": {
+    "token": {
+      "secret": "yDaHtkRi56bcx+46BjFnOyHgDTmfgXFS0Y5F0Bf2hvVMZ+PT61wdEF10QpC/521DXM1K0VT9bnM/TwhT0eomPg=="
+    },
+    "local": {}
+  }
+}
