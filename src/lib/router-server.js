@@ -12,8 +12,13 @@ class ServerRouter {
 
             const { path } = req
 
+            if (path=='/static-assets/js/initialProps.js') {
+                res.send(`window.initialProps=${JSON.stringify(initialProps)}`)
+                return
+            }
+
             // routing from config file `/src/lib/routes.js`
-            if(Routes[path]) {
+            if (Routes[path]) {
                 const Route = Routes[path] ,
                     route = <Route.path {...initialProps} /> ,
                     props = {

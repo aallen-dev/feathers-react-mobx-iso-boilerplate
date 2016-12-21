@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from '../utils/Link'
 
 module.exports = () =>
-    <a href="/">go home</a>
+    <Link to="/">go home</Link>

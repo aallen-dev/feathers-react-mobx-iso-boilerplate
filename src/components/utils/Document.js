@@ -10,6 +10,9 @@ const Document = ({ App , title }) =>
         </head>
         <body>
             <react id="content" {...App} />
+            <script type="text/javascript" key="propsScript"  src="/static-assets/js/initialProps.js" />
+            <script type="text/javascript" key="vendorScript" src="/static-assets/js/vendor.js" />
+            <script type="text/javascript" key="bundleScript" src="/static-assets/js/index.js" />
         </body>
     </html>
 
