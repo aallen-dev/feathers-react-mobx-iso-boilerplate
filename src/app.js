@@ -1,34 +1,36 @@
 'use strict';
 
-const path = require('path');
-const serveStatic = require('feathers').static;
-const favicon = require('serve-favicon');
-const compress = require('compression');
-const cors = require('cors');
-const feathers = require('feathers');
-const configuration = require('feathers-configuration');
-const hooks = require('feathers-hooks');
-const rest = require('feathers-rest');
-const bodyParser = require('body-parser');
-const socketio = require('feathers-socketio');
-const middleware = require('./middleware');
-const services = require('./services');
+const path = require('path') ,
+      serveStatic = require('feathers').static ,
+      favicon = require('serve-favicon') ,
+      compress = require('compression') ,
+      cors = require('cors') ,
+      feathers = require('feathers') ,
+      configuration = require('feathers-configuration') ,
+      hooks = require('feathers-hooks') ,
+      rest = require('feathers-rest') ,
+      bodyParser = require('body-parser') ,
+      socketio = require('feathers-socketio') ,
+      middleware = require('./middleware') ,
+      services = require('./services') ,
 
-const app = feathers();
+      app = feathers()
 
-app.configure(configuration(path.join(__dirname, '..')));
+import { router } from './lib/router-server'
 
-app.use(compress())
-  .options('*', cors())
-  .use(cors())
-  .use(favicon( path.join(app.get('public'), 'favicon.ico') ))
-  .use('/', serveStatic( app.get('public') ))
-  .use(bodyParser.json())
-  .use(bodyParser.urlencoded({ extended: true }))
-  .configure(hooks())
-  .configure(rest())
-  .configure(socketio())
-  .configure(services)
-  .configure(middleware);
+app .configure(configuration(path.join(__dirname , '..')))
+    .use(compress())
+    .options('*', cors())
+    .use(cors())
+    .use(favicon( path.join(__dirname , '../static-assets/pics/favicon.ico') ))
+    .use(`/static-assets/`, serveStatic(path.join(__dirname, `../static-assets`) ))
+    .use('/', router.route({}))
+    .use(bodyParser.json())
+    .use(bodyParser.urlencoded({ extended: true }))
+    .configure(hooks())
+    .configure(rest())
+    .configure(socketio())
+    .configure(services)
+    .configure(middleware)
 
-module.exports = app;
+module.exports = app
