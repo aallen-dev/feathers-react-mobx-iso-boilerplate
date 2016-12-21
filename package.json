@@ -1,46 +1,105 @@
 {
-  "name": "feathers-react-mobx-iso-boilerplate1",
-  "description": "",
-  "version": "0.0.0",
-  "homepage": "",
-  "main": "src/",
-  "keywords": [
-    "feathers"
-  ],
-  "license": "MIT",
-  "repository": {},
-  "author": {},
-  "contributors": [],
-  "bugs": {},
-  "engines": {
-    "node": ">= 0.12.0"
-  },
-  "scripts": {
-    "test": "npm run jshint && npm run mocha",
-    "jshint": "jshint src/. test/. --config",
-    "start": "node src/",
-    "mocha": "mocha test/ --recursive"
-  },
-  "dependencies": {
-    "body-parser": "1.15.2",
-    "compression": "1.6.2",
-    "cors": "2.8.1",
-    "feathers": "2.0.3",
-    "feathers-authentication": "0.7.12",
-    "feathers-configuration": "0.3.3",
-    "feathers-errors": "2.5.0",
-    "feathers-hooks": "1.7.1",
-    "feathers-mongoose": "3.6.1",
-    "feathers-rest": "1.5.2",
-    "feathers-socketio": "1.4.2",
-    "mongoose": "4.7.4",
-    "passport": "0.3.2",
-    "serve-favicon": "2.3.2",
-    "winston": "2.3.0"
-  },
-  "devDependencies": {
-    "jshint": "2.9.4",
-    "mocha": "3.2.0",
-    "request": "2.79.0"
-  }
+    "name": "feathers-react-mobx-iso-boilerplate1",
+    "description": "",
+    "version": "0.0.0",
+    "homepage": "",
+    "main": "src/",
+    "keywords": [
+        "feathers"
+    ],
+    "license": "MIT",
+    "repository": {},
+    "author": {},
+    "contributors": [],
+    "bugs": {},
+    "engines": {
+        "node": ">= 0.12.0"
+    },
+    "scripts" : {
+        "test" : "npm run jshint && npm run mocha",
+        "jshint" : "jshint src/. test/. --config",
+        "mocha" : "mocha test/ --recursive" ,
+
+        "start" : "cd src; nodemon --exec babel-node server",
+        "watchjs" : "watchify -x react -x react-dom -x mobx -x mobx-react src/lib/router.js -o static-assets/js/index.js -v",
+
+        "go" : "cd src; babel-node server & npm run watchjs",
+
+        "minvendor" : "NODE_ENV=production browserify -r react -r react-dom -r mobx -r mobx-react | uglifyjs -mc > static-assets/js/vendor.js",
+
+        "build-server" : "rm -rf dist; babel src -d dist",
+        "minjs" : "NODE_ENV=production browserify -x react -x react-dom -x mobx -x mobx-react src/lib/router.js | uglifyjs -mc > static-assets/js/index.js" ,
+        "prod" : "cd dist; NODE_ENV=production node server & echo $! > ../pid.txt" ,
+
+        "kill" : "kill -9 $(cat pid.txt)"
+    },
+    "browserify": {
+        "transform": [
+            [
+                "babelify",
+                {
+                    "presets": [
+                        "react",
+                        "es2015",
+                        "stage-0"
+                    ],
+                    "plugins": [
+                        "babel-plugin-transform-es2015-destructuring",
+                        "babel-plugin-transform-decorators-legacy",
+                        "babel-plugin-transform-class-properties",
+                        "babel-plugin-transform-react-constant-elements",
+                        "babel-plugin-transform-react-inline-elements",
+                        "babel-plugin-transform-class-properties"
+                    ]
+                }
+            ]
+        ]
+    },
+    "dependencies": {
+        "body-parser": "1.15.2",
+        "bufferutil": "1.3.0",
+        "compression": "1.6.2",
+        "cors": "2.8.1",
+        "feathers": "2.0.2",
+        "feathers-authentication": "0.7.12",
+        "feathers-configuration": "0.3.3",
+        "feathers-errors": "2.5.0",
+        "feathers-hooks": "1.7.0",
+        "feathers-mongoose": "3.6.1",
+        "feathers-rest": "1.5.2",
+        "feathers-socketio": "1.4.2",
+        "mobx": "2.6.4",
+        "mobx-react": "4.0.3",
+        "mongoose": "4.7.1",
+        "passport": "0.3.2",
+        "react": "15.0.2",
+        "react-bootstrap": "0.30.7",
+        "react-dom": "15.0.2",
+        "react-markdown": "2.4.2",
+        "reactcss": "1.1.1",
+        "remarkable": "1.7.1",
+        "remarkable-react": "0.0.2",
+        "serve-favicon": "2.3.2",
+        "utf-8-validate": "1.2.1",
+        "winston": "2.3.0"
+    },
+    "devDependencies": {
+        "babel-cli": "6.18.0",
+        "babel-plugin-transform-class-properties": "6.19.0",
+        "babel-plugin-transform-decorators-legacy": "1.3.4",
+        "babel-plugin-transform-es2015-destructuring": "6.19.0",
+        "babel-plugin-transform-react-constant-elements": "6.9.1",
+        "babel-plugin-transform-react-inline-elements": "6.8.0",
+        "babel-preset-es2015": "6.18.0",
+        "babel-preset-react": "6.16.0",
+        "babel-preset-stage-0": "6.16.0",
+        "babelify": "7.3.0",
+        "browserify": "13.1.1",
+        "jshint": "2.9.4",
+        "mocha": "3.2.0",
+        "node-fetch": "1.6.3",
+        "request": "2.79.0",
+        "uglify-js": "2.7.5",
+        "watchify": "3.7.0"
+    }
 }
