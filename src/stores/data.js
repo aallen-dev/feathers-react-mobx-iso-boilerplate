@@ -1,4 +1,5 @@
 import { observable , computed , action } from 'mobx'
+import { useStaticRendering } from 'mobx-react'
 
 let dataService
 
@@ -41,19 +42,21 @@ class DataServiceListeners extends DataActions {
 
 const dataStore = new DataServiceListeners
 
-const setupDataStore = app => {
+const setupDataStore = (app , isServer) => {
 
     dataService = app.service('api/data')
 
-    dataService
-        .on('created' , data =>
-            dataStore.add({ data }))
-        .on('patched' , data =>
-            dataStore.patch({ data }))
-        .on('removed' , data =>
-            dataStore.remove({ data }))
+    isServer
+        ? useStaticRendering(true)
+        : dataService
+            .on('created' , data =>
+                dataStore.add({ data }))
+            .on('patched' , data =>
+                dataStore.patch({ data }))
+            .on('removed' , data =>
+                dataStore.remove({ data }))
 
-    dataService.find()
+    return dataService.find()
         .then( ({ data }) =>
             dataStore.setInitialState({ data }))
         //.catch(e=>console.log(e.toString()))

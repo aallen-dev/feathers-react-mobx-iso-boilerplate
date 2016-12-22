@@ -19,9 +19,9 @@ class ClientRouter {
 const router = new ClientRouter
 
 if (hasWindow) {
-    setupDataStore(require(`../clientApp`))
     // bootstrapping the client router with a listener for popstate and the initial route
     window.addEventListener( 'popstate' , event => router.route({ route : window.location.pathname }) )
-    router.route({ route : window.location.pathname })
+    setupDataStore(require(`../clientApp`)).then( () =>
+        router.route({ route : window.location.pathname }))
 }
 export { router }
