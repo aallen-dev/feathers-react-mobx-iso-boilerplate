@@ -25,7 +25,9 @@ node_modules
 # Users Environment Variables
 .lock-wscript
 
-data/
-
 # Build files for server
 dist
+
+# Build files on client
+static-assets/js/index.js
+static-assets/js/vendor.js

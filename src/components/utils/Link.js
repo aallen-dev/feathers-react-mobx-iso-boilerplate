@@ -2,7 +2,8 @@ import React , { Component } from 'react'
 import { router } from '../../lib/router'
 
 class Link extends Component {
-    _route = (event) => {
+
+    _route = event => {
 
         event.preventDefault()
 
@@ -11,6 +12,7 @@ class Link extends Component {
         router.route({route : to})
         window.history.pushState('' , '' , to)
     }
+
     render() {
         const { to , ...props } = this.props
         return <a onClick={this._route} {...{ href:to , ...props }} />
