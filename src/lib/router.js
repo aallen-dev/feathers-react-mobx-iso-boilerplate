@@ -1,6 +1,7 @@
 import React from 'react'
 import Routes from '../routes'
 import { render } from 'react-dom'
+import { setupDataStore } from '../stores/data'
 
 const hasWindow = typeof window==='undefined' ? false : true
 
@@ -18,6 +19,7 @@ class ClientRouter {
 const router = new ClientRouter
 
 if (hasWindow) {
+    setupDataStore(require(`../clientApp`))
     // bootstrapping the client router with a listener for popstate and the initial route
     window.addEventListener( 'popstate' , event => router.route({ route : window.location.pathname }) )
     router.route({ route : window.location.pathname })

@@ -14,13 +14,49 @@ class DataObservables {
 }
 class DataActions extends DataObservables {
     @action create = ({ data }) =>
-        this.data.push(data)
+        dataService.create(data)
 
     @action reset = () =>
-        this.data = []
+        dataService.find()
+            .then( ({ data }) =>
+                data.forEach( datum =>
+                    dataService.remove(datum)))
 
 }
+class DataServiceListeners extends DataActions {
+    add = ({ data }) =>
+        this.data.push(data)
 
-const dataStore = new DataActions
+    patch = ({ data }) =>
+        this.data.replace(this.data.map( item =>
+            data._id==item._id ? data : item))
 
-export { dataStore }
+    remove = ({ data }) =>
+        this.data.replace(this.data.filter( item =>
+            data._id!==item._id))
+
+    setInitialState = ({ data }) =>
+        this.data.replace(data)
+}
+
+const dataStore = new DataServiceListeners
+
+const setupDataStore = app => {
+
+    dataService = app.service('api/data')
+
+    dataService
+        .on('created' , data =>
+            dataStore.add({ data }))
+        .on('patched' , data =>
+            dataStore.patch({ data }))
+        .on('removed' , data =>
+            dataStore.remove({ data }))
+
+    dataService.find()
+        .then( ({ data }) =>
+            dataStore.setInitialState({ data }))
+        //.catch(e=>console.log(e.toString()))
+}
+
+export { dataStore , setupDataStore }
